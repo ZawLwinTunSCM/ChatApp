@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MTMChatLink</string>
+    <string name="facebook_app_id">656805186415440</string>
+    <string name="fb_login_protocol_scheme">fb656805186415440</string>
+    <string name="facebook_client_token">003e836caa6fae6b4e56d6d45f1d0e46</string>
+</resources>
