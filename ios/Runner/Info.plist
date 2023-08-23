@@ -2,6 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 	<dict>
+		<key>CFBundleURLTypes</key>
+		<array>
+  		<dict>
+  			<key>CFBundleURLSchemes</key>
+  			<array>
+					<string>com.googleusercontent.apps.106736854339-u5c7enahkvc6qroe96ilu6ed41nl8d5s</string>
+   	 			<string>fb656805186415440</string>
+					<string>mtmchat-twitter-login</string>
+  			</array>
+  		</dict>
+		</array>
+		<key>FacebookAppID</key>
+		<string>656805186415440</string>
+		<key>FacebookClientToken</key>
+		<string>003e836caa6fae6b4e56d6d45f1d0e46</string>
+		<key>FacebookDisplayName</key>
+		<string>MTMChatLink</string>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
 		<key>CFBundleDevelopmentRegion</key>
