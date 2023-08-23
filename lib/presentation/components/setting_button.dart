@@ -3,7 +3,7 @@ import 'package:chat/presentation/components/common.dart';
 import 'package:flutter/material.dart';
 
 Widget settingButton(
-    {required Widget icon, required String text, void Function()? onTap}) {
+    {required Widget icon, required String text, void Function()? onClick}) {
   return Container(
     decoration: const BoxDecoration(
       border: Border.symmetric(
@@ -11,7 +11,7 @@ Widget settingButton(
       ),
     ),
     child: InkWell(
-      onTap: onTap,
+      onTap: onClick ?? () {},
       splashColor: Colors.white.withOpacity(0.3),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),

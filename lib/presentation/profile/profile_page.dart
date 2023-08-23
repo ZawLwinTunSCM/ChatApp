@@ -4,6 +4,7 @@ import 'package:chat/presentation/components/common.dart';
 import 'package:chat/presentation/components/custom_app_bar.dart';
 import 'package:chat/presentation/components/setting_button.dart';
 import 'package:chat/presentation/main/main_page.dart';
+import 'package:chat/presentation/profile/edit_profile.dart';
 import 'package:chat/providers/auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,7 +14,7 @@ class ProfilePage extends HookConsumerWidget {
   const ProfilePage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authFetchUserProvider);
+    final user = ref.watch(authStreamUserProvider);
     final authStateNotifier = ref.watch(authStateNotifierProvider.notifier);
     return Scaffold(
         appBar: CustomAppBar(
@@ -21,7 +22,6 @@ class ProfilePage extends HookConsumerWidget {
             'Profile',
             style: commonTextStyle(size: 20),
           ),
-          hasBackButton: true,
         ),
         body: user.when(
           data: (user) {
@@ -55,8 +55,14 @@ class ProfilePage extends HookConsumerWidget {
                       icon: SvgPicture.asset(Assets.images.contactShare),
                       text: 'Share Contact'),
                   settingButton(
-                      icon: SvgPicture.asset(Assets.images.edit),
-                      text: 'Edit Profile'),
+                    icon: SvgPicture.asset(Assets.images.edit),
+                    text: 'Edit Profile',
+                    onClick: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => EditProfilePage(user: user),
+                      ));
+                    },
+                  ),
                   settingButton(
                       icon: SvgPicture.asset(Assets.images.settings),
                       text: 'Settings'),
@@ -72,7 +78,7 @@ class ProfilePage extends HookConsumerWidget {
                   settingButton(
                     icon: SvgPicture.asset(Assets.images.logout),
                     text: 'Logout',
-                    onTap: () {
+                    onClick: () {
                       authStateNotifier.signOut();
                       Navigator.of(context).pushAndRemoveUntil<void>(
                         MaterialPageRoute(

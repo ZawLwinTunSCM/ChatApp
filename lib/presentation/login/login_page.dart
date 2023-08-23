@@ -71,18 +71,15 @@ class LoginPage extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 20),
                     commonTextField(
-                      true,
                       labelText: 'Mail Address',
                       controller: emailInputController,
-                      isObscureText: isObscureText,
                     ),
                     const SizedBox(height: 13),
                     commonTextField(
-                      true,
-                      labelText: 'Password',
-                      controller: passwordInputController,
-                      isObscureText: isObscureText,
-                    ),
+                        labelText: 'Password',
+                        controller: passwordInputController,
+                        isObscureText: isObscureText,
+                        login: true),
                     const SizedBox(height: 10),
                     Align(
                       alignment: Alignment.centerRight,

@@ -2,6 +2,7 @@ import 'package:chat/assets/assets.gen.dart';
 import 'package:chat/constants/app_color.dart';
 import 'package:chat/constants/url.dart';
 import 'package:chat/presentation/components/common.dart';
+import 'package:chat/presentation/components/custom_app_bar.dart';
 import 'package:chat/presentation/components/image_preview.dart';
 import 'package:chat/presentation/people/person_detail_page.dart';
 import 'package:chat/providers/auth/auth.dart';
@@ -21,6 +22,12 @@ class PeoplePage extends HookConsumerWidget {
     final searchInputController = useTextEditingController();
     final searchData = useState('');
     return Scaffold(
+      appBar: CustomAppBar(
+        title: Text(
+          'People',
+          style: commonTextStyle(size: 20),
+        ),
+      ),
       body: users.when(
         data: (data) {
           data.where(
@@ -38,7 +45,7 @@ class PeoplePage extends HookConsumerWidget {
                   },
                 );
           return Padding(
-            padding: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 0),
             child: Column(
               children: [
                 Container(

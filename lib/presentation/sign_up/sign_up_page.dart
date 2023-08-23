@@ -75,26 +75,21 @@ class SignUpPage extends HookConsumerWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 19),
+                    const SizedBox(height: 20),
                     commonTextField(
-                      false,
                       labelText: 'Mail Address',
                       controller: emailInputController,
-                      isObscureText: isObscureText,
                     ),
                     const SizedBox(height: 12),
                     commonTextField(
-                      false,
                       labelText: 'Password',
                       controller: passwordInputController,
                       isObscureText: isObscureText,
                     ),
                     const SizedBox(height: 12),
                     commonTextField(
-                      false,
                       labelText: 'User Name',
                       controller: nameInputController,
-                      isObscureText: isObscureText,
                     ),
                     const SizedBox(height: 12),
                     isLoading.value

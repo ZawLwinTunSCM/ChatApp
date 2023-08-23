@@ -83,10 +83,8 @@ class ResetPasswordPage extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   commonTextField(
-                    false,
                     labelText: 'Mail Address',
                     controller: emailInputController,
-                    isObscureText: useState(false),
                   ),
                   const SizedBox(height: 25),
                   Text(

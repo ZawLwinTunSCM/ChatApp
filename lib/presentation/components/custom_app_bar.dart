@@ -17,7 +17,7 @@ class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppBar(
-      backgroundColor: AppColor.darkBlack,
+      backgroundColor: AppColor.dark,
       leading: hasBackButton
           ? IconButton(
               icon: const Icon(

@@ -1,6 +1,8 @@
 import 'package:chat/entities/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final userRepositoryProvider = Provider.autoDispose<UserRepositoryImpl>(
@@ -12,7 +14,7 @@ abstract class BaseUserRepository {
   Future<void> create({
     required auth.User user,
   });
-  Future<void> updateProvider({
+  Future<void> update({
     required User user,
   });
   Future<User?> fetch({required String id});
@@ -20,10 +22,14 @@ abstract class BaseUserRepository {
   Stream<List<User>> fetchAllUsers();
 
   Stream<User?> stream({required String id});
+
+  Future<String> uploadProfileImage(
+      {required userId, required Uint8List imageBytes});
 }
 
 class UserRepositoryImpl implements BaseUserRepository {
   final _firestore = FirebaseFirestore.instance;
+  final _storage = FirebaseStorage.instance;
 
   final usersCol = 'users';
 
@@ -49,7 +55,7 @@ class UserRepositoryImpl implements BaseUserRepository {
   }
 
   @override
-  Future<void> updateProvider({
+  Future<void> update({
     required User user,
   }) async {
     await _firestore.collection(usersCol).doc(user.id).set(
@@ -87,5 +93,16 @@ class UserRepositoryImpl implements BaseUserRepository {
       }
       return User.fromJson(data);
     });
+  }
+
+    @override
+  Future<String> uploadProfileImage(
+      {required userId, required Uint8List imageBytes}) async {
+    final storageReference =
+        _storage.ref().child('profile_photos').child('$userId.jpg');
+    final uploadTask = storageReference.putData(imageBytes);
+    final snapshot = await uploadTask;
+    final imageUrl = await snapshot.ref.getDownloadURL();
+    return imageUrl;
   }
 }

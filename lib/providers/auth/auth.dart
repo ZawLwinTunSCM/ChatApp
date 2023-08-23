@@ -3,6 +3,7 @@ import 'package:chat/entities/user.dart';
 import 'package:chat/providers/auth/auth_state.dart';
 import 'package:chat/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,14 +24,11 @@ final authUserProvider = StateProvider<auth.User?>(
   (ref) => auth.FirebaseAuth.instance.currentUser,
 );
 
-final authFetchUserProvider = FutureProvider.autoDispose<User?>((ref) {
-  return ref.watch(userRepositoryProvider).fetch(id: auth.FirebaseAuth.instance.currentUser!.uid);
+final authStreamUserProvider = StreamProvider.autoDispose<User?>((ref) {
+  return ref
+      .watch(userRepositoryProvider)
+      .stream(id: auth.FirebaseAuth.instance.currentUser!.uid);
 });
-
-// final userAlertProvider = FutureProvider.family.autoDispose<bool, String>((ref, userId) async {
-//   SharedPreferences prefs = await SharedPreferences.getInstance();
-//   return prefs.getBool('userAlert_$userId') ?? true;
-// });
 
 final authStateNotifierProvider =
     StateNotifierProvider.autoDispose<AuthStateNotifier, AuthState>(
@@ -159,14 +157,18 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<bool> completeProfile({
-    required auth.User authUser,
+  Future<void> updateProfile({
+    required User user,
   }) async {
-    final user = await _repository.fetch(id: authUser.uid);
-    if (user != null) {
-      return user.phone.isEmpty || user.address.isEmpty;
-    }
-    return false;
+    await _repository.update(
+      user: user,
+    );
+  }
+
+  Future<String> updateProfilePhoto(
+      {required userId, required Uint8List imageBytes}) async {
+    return await _repository.uploadProfileImage(
+        userId: userId, imageBytes: imageBytes);
   }
 
   Future<void> forgotPassword(String email) async {
