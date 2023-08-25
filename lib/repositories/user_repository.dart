@@ -1,3 +1,4 @@
+import 'package:chat/constants/url.dart';
 import 'package:chat/entities/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
@@ -48,7 +49,7 @@ class UserRepositoryImpl implements BaseUserRepository {
       email: user.email!,
       phone: '',
       address: '',
-      profilePhoto: user.photoURL ?? '',
+      profilePhoto: user.photoURL ?? defaultProfile,
       createdAt: DateTime.now(),
     );
     await _firestore.collection(usersCol).doc(user.uid).set(newUser.toJson());

@@ -1,11 +1,12 @@
 import 'package:chat/assets/assets.gen.dart';
 import 'package:chat/constants/app_color.dart';
-import 'package:chat/constants/url.dart';
+import 'package:chat/presentation/chats/chat_room.dart';
 import 'package:chat/presentation/components/common.dart';
 import 'package:chat/presentation/components/custom_app_bar.dart';
 import 'package:chat/presentation/components/image_preview.dart';
 import 'package:chat/presentation/people/person_detail_page.dart';
 import 'package:chat/providers/auth/auth.dart';
+import 'package:chat/providers/chats/chats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -93,20 +94,18 @@ class PeoplePage extends HookConsumerWidget {
                           itemCount: filteredUsers.length,
                           itemBuilder: (context, index) {
                             final user = filteredUsers.toList()[index];
-                            final img = user.profilePhoto.isEmpty
-                                ? defaultProfile
-                                : user.profilePhoto;
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 20),
                               child: ListTile(
                                 leading: GestureDetector(
                                   onTap: () {
-                                    showFullScreenImage(context, img);
+                                    showFullScreenImage(
+                                        context, user.profilePhoto);
                                   },
                                   child: CircleAvatar(
                                     radius: 20,
                                     backgroundImage: NetworkImage(
-                                      img,
+                                      user.profilePhoto,
                                     ),
                                   ),
                                 ),
@@ -125,8 +124,22 @@ class PeoplePage extends HookConsumerWidget {
                                   ),
                                 ),
                                 trailing: GestureDetector(
-                                    child:
-                                        SvgPicture.asset(Assets.images.chat)),
+                                  child: SvgPicture.asset(Assets.images.chat),
+                                  onTap: () {
+                                    ref
+                                        .watch(
+                                            chatStateNotifierProvider.notifier)
+                                        .createChatRoom(
+                                            senderId: authUser!.uid,
+                                            receiverId: user.id);
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => ChatRoomPage(
+                                          user: user,
+                                          chatId: '${authUser.uid},${user.id}'),
+                                    ));
+                                  },
+                                ),
                               ),
                             );
                           },

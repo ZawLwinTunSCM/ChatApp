@@ -157,6 +157,12 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  Future<User?> getUser({
+    required String uid,
+  }) async {
+    return await _repository.fetch(id: uid);
+  }
+
   Future<void> updateProfile({
     required User user,
   }) async {

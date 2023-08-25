@@ -27,10 +27,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/contact_share.svg
   String get contactShare => 'assets/images/contact_share.svg';
 
-  /// File path: assets/images/default_profile.png
-  AssetGenImage get defaultProfile =>
-      const AssetGenImage('assets/images/default_profile.png');
-
   /// File path: assets/images/document.svg
   String get document => 'assets/images/document.svg';
 
@@ -110,7 +106,6 @@ class $AssetsImagesGen {
         chatWhite,
         chats,
         contactShare,
-        defaultProfile,
         document,
         edit,
         email,

@@ -1,6 +1,5 @@
 import 'package:chat/assets/assets.gen.dart';
 import 'package:chat/constants/app_color.dart';
-import 'package:chat/constants/url.dart';
 import 'package:chat/entities/user.dart';
 import 'package:chat/presentation/components/common.dart';
 import 'package:chat/presentation/components/custom_app_bar.dart';
@@ -33,9 +32,7 @@ class PersonDetailPage extends HookConsumerWidget {
               CircleAvatar(
                 radius: 70,
                 backgroundImage: NetworkImage(
-                  user.profilePhoto.isEmpty
-                      ? defaultProfile
-                      : user.profilePhoto,
+                  user.profilePhoto
                 ),
               ),
               const SizedBox(

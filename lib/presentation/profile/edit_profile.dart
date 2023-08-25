@@ -120,13 +120,11 @@ class EditProfilePage extends HookConsumerWidget {
             const SizedBox(height: 15),
             AuthButton(
                 onPressed: () async {
-                  print('inside here');
                   if (profileImage.value != null) {
                     final imageUrl = await authStateNotifier.updateProfilePhoto(
                         userId: user.id, imageBytes: profileImage.value!);
                     profilePhotoInputController.text = imageUrl;
                   }
-                  print(profilePhotoInputController.text);
                   await authStateNotifier.updateProfile(
                       user: User(
                           id: user.id,

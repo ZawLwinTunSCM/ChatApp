@@ -48,3 +48,8 @@ app.*.map.json
 /android/app/release
 ios/Podfile.lock
 pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec.lock
+.dart_tool/package_config_subset
+.dart_tool/package_config.json
