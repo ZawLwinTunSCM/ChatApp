@@ -13,7 +13,7 @@ class ProfilePage extends HookConsumerWidget {
   const ProfilePage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authStreamUserProvider);
+    final user = ref.watch(currentUserProvider);
     final authStateNotifier = ref.watch(authStateNotifierProvider.notifier);
     return Scaffold(
         appBar: CustomAppBar(

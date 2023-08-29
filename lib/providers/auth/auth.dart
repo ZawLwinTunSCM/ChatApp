@@ -9,26 +9,19 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:twitter_login/twitter_login.dart';
 
-// final storeUserStreamProvider = StreamProvider.autoDispose<User?>(
-//   (ref) {
-//     final authUserId = ref.watch(authStateNotifierProvider).user!.id;
-//     return ref.watch(userRepositoryProvider).stream(id: authUserId);
-//   },
-// );
-
 final authUserStreamProvider = StreamProvider.autoDispose<auth.User?>((ref) {
   return ref.watch(userRepositoryProvider).authUserStream();
 });
 
-final authUserProvider = StateProvider<auth.User?>(
-  (ref) => auth.FirebaseAuth.instance.currentUser,
-);
-
-final authStreamUserProvider = StreamProvider.autoDispose<User?>((ref) {
+final currentUserProvider = StreamProvider.autoDispose<User?>((ref) {
   return ref
       .watch(userRepositoryProvider)
       .stream(id: auth.FirebaseAuth.instance.currentUser!.uid);
 });
+
+final userInfoProvider = StreamProvider.autoDispose.family<User?, String>(
+  (ref, id) => ref.watch(userRepositoryProvider).stream(id: id),
+);
 
 final authStateNotifierProvider =
     StateNotifierProvider.autoDispose<AuthStateNotifier, AuthState>(
@@ -155,12 +148,6 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         user: authUser,
       );
     }
-  }
-
-  Future<User?> getUser({
-    required String uid,
-  }) async {
-    return await _repository.fetch(id: uid);
   }
 
   Future<void> updateProfile({

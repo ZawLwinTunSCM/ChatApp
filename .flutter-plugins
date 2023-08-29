@@ -1,6 +1,7 @@
 # This is a generated file; do not edit or check into version control.
 cloud_firestore=/Users/zawlwintun/.pub-cache/hosted/pub.dev/cloud_firestore-4.8.4/
 cloud_firestore_web=/Users/zawlwintun/.pub-cache/hosted/pub.dev/cloud_firestore_web-3.6.3/
+emoji_picker_flutter=/Users/zawlwintun/.pub-cache/hosted/pub.dev/emoji_picker_flutter-1.6.1/
 facebook_auth_desktop=/Users/zawlwintun/.pub-cache/hosted/pub.dev/facebook_auth_desktop-1.0.0/
 file_selector_linux=/Users/zawlwintun/.pub-cache/hosted/pub.dev/file_selector_linux-0.9.2/
 file_selector_macos=/Users/zawlwintun/.pub-cache/hosted/pub.dev/file_selector_macos-0.9.3+1/
@@ -27,7 +28,7 @@ google_sign_in_web=/Users/zawlwintun/.pub-cache/hosted/pub.dev/google_sign_in_we
 image_picker=/Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker-1.0.2/
 image_picker_android=/Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_android-0.8.7+4/
 image_picker_for_web=/Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_for_web-3.0.0/
-image_picker_ios=/Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.8/
+image_picker_ios=/Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.8+1/
 image_picker_linux=/Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_linux-0.2.1/
 image_picker_macos=/Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_macos-0.2.1/
 image_picker_windows=/Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_windows-0.2.1/

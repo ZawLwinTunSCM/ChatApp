@@ -10,7 +10,7 @@ class Messages with _$Messages {
   const factory Messages({
     @Default('') String senderId,
     @Default('') String text,
-    @TimestampConverter() DateTime? timestamp,
+    @Default('') @TimestampConverter() DateTime timestamp,
   }) = _Messages;
 
   factory Messages.fromJson(Map<String, dynamic> json) =>

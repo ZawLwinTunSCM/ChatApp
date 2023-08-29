@@ -1,10 +1,13 @@
 import 'package:chat/assets/assets.gen.dart';
 import 'package:chat/constants/app_color.dart';
 import 'package:chat/entities/user.dart';
+import 'package:chat/presentation/chats/chat_room.dart';
 import 'package:chat/presentation/components/common.dart';
 import 'package:chat/presentation/components/custom_app_bar.dart';
 import 'package:chat/presentation/components/setting_button.dart';
 import 'package:chat/presentation/components/snack_bar.dart';
+import 'package:chat/providers/auth/auth.dart';
+import 'package:chat/providers/chats/chats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,6 +18,7 @@ class PersonDetailPage extends HookConsumerWidget {
   final User user;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authUser = ref.watch(authUserStreamProvider);
     return Scaffold(
         appBar: CustomAppBar(
           title: Text(
@@ -31,9 +35,7 @@ class PersonDetailPage extends HookConsumerWidget {
               ),
               CircleAvatar(
                 radius: 70,
-                backgroundImage: NetworkImage(
-                  user.profilePhoto
-                ),
+                backgroundImage: NetworkImage(user.profilePhoto),
               ),
               const SizedBox(
                 height: 30,
@@ -102,7 +104,22 @@ class PersonDetailPage extends HookConsumerWidget {
                   ),
                   const SizedBox(width: 50),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () async {
+                      final chatId =
+                          generateChatId('${authUser.value!.uid},${user.id}');
+                      final isChatExist = await ref
+                          .watch(chatStateNotifierProvider.notifier)
+                          .checkChatRoom(chatId: chatId);
+                      if (!isChatExist) {
+                        ref
+                            .watch(chatStateNotifierProvider.notifier)
+                            .createChatRoom(chatId: chatId);
+                      }
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ChatRoomPage(user: user, chatId: chatId),
+                      ));
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,

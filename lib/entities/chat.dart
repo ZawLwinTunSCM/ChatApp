@@ -11,7 +11,6 @@ part 'chat.g.dart';
 class Chat with _$Chat {
   const factory Chat({
     required String chatId,
-    required List<String>? contacts,
     @TimestampConverter() required DateTime? lastMessageTimestamp,
     @MessagesConverter() required List<Messages>? messages,
   }) = _Chat;

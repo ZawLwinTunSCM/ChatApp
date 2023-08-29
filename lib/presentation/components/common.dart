@@ -7,3 +7,9 @@ TextStyle commonTextStyle({double? size, Color? color, FontWeight? weight}) {
     color: color ?? Colors.white,
   );
 }
+
+String generateChatId(String chatId) {
+  List<String> userIds = chatId.split(',');
+  userIds.sort();
+  return userIds.join(',');
+}

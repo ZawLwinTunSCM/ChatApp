@@ -1,3 +1,4 @@
+import 'package:chat/config/logger.dart';
 import 'package:chat/presentation/home/home_page.dart';
 import 'package:chat/presentation/welcome/welcome_page.dart';
 import 'package:chat/providers/auth/auth.dart';
@@ -19,6 +20,7 @@ class MainPage extends HookConsumerWidget {
         if (user != null) {
           authStateNotifier.addUser(authUser: user);
         }
+        logger.i('⚡ Auth: $user');
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Navigator.of(context).pushAndRemoveUntil<void>(

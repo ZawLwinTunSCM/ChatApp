@@ -15,7 +15,7 @@ class MessagesConverter
   }
 
   @override
-  Map<String, dynamic> toJson(Messages Messages) {
-    return Messages.toJson();
+  Map<String, dynamic> toJson(Messages messages) {
+    return messages.toJson();
   }
 }

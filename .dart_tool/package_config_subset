@@ -118,6 +118,10 @@ dart_style
 2.19
 file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/dart_style-2.3.2/
 file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/dart_style-2.3.2/lib/
+emoji_picker_flutter
+2.17
+file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/emoji_picker_flutter-1.6.1/
+file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/emoji_picker_flutter-1.6.1/lib/
 facebook_auth_desktop
 3.0
 file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/facebook_auth_desktop-1.0.0/
@@ -335,9 +339,9 @@ image_picker_for_web
 file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_for_web-3.0.0/
 file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_for_web-3.0.0/lib/
 image_picker_ios
-2.18
-file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.8/
-file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.8/lib/
+2.19
+file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.8+1/
+file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.8+1/lib/
 image_picker_linux
 2.18
 file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_linux-0.2.1/
@@ -354,6 +358,10 @@ image_picker_windows
 2.18
 file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_windows-0.2.1/
 file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/image_picker_windows-0.2.1/lib/
+intl
+2.12
+file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/intl-0.18.1/
+file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/intl-0.18.1/lib/
 io
 2.12
 file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/io-1.0.4/
@@ -628,8 +636,8 @@ file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/yaml-3.1.2/
 file:///Users/zawlwintun/.pub-cache/hosted/pub.dev/yaml-3.1.2/lib/
 chat
 3.0
-file:///Users/zawlwintun/Documents/ChatApp/
-file:///Users/zawlwintun/Documents/ChatApp/lib/
+file:///Users/zawlwintun/Documents/GitHub/ChatApp/
+file:///Users/zawlwintun/Documents/GitHub/ChatApp/lib/
 sky_engine
 3.0
 file:///Users/zawlwintun/Documents/flutter/bin/cache/pkg/sky_engine/

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:chat/assets/assets.gen.dart';
 import 'package:chat/constants/app_color.dart';
 import 'package:chat/presentation/chats/chat_room.dart';
@@ -19,7 +21,7 @@ class PeoplePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final users = ref.watch(peopleStreamProvider);
-    final authUser = ref.watch(authUserProvider);
+    final authUser = ref.watch(authUserStreamProvider);
     final searchInputController = useTextEditingController();
     final searchData = useState('');
     return Scaffold(
@@ -33,7 +35,7 @@ class PeoplePage extends HookConsumerWidget {
         data: (data) {
           data.where(
             (user) {
-              return user.id != authUser!.uid;
+              return user.id != authUser.value!.uid;
             },
           );
           final filteredUsers = searchData.value.trim().isEmpty
@@ -125,18 +127,23 @@ class PeoplePage extends HookConsumerWidget {
                                 ),
                                 trailing: GestureDetector(
                                   child: SvgPicture.asset(Assets.images.chat),
-                                  onTap: () {
-                                    ref
+                                  onTap: () async {
+                                    final chatId = generateChatId(
+                                        '${authUser.value!.uid},${user.id}');
+                                    final isChatExist = await ref
                                         .watch(
                                             chatStateNotifierProvider.notifier)
-                                        .createChatRoom(
-                                            senderId: authUser!.uid,
-                                            receiverId: user.id);
+                                        .checkChatRoom(chatId: chatId);
+                                    if (!isChatExist) {
+                                      ref
+                                          .watch(chatStateNotifierProvider
+                                              .notifier)
+                                          .createChatRoom(chatId: chatId);
+                                    }
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                       builder: (context) => ChatRoomPage(
-                                          user: user,
-                                          chatId: '${authUser.uid},${user.id}'),
+                                          user: user, chatId: chatId),
                                     ));
                                   },
                                 ),
