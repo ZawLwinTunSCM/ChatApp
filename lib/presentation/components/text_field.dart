@@ -7,44 +7,20 @@ Widget commonTextField(
     {required String labelText,
     required TextEditingController controller,
     ValueNotifier<bool>? isObscureText,
-    bool? login,
-    bool? readOnly}) {
-  final isPassword = labelText == 'Password';
-  final isMail = labelText == 'Mail Address';
-  final isPhone = labelText == 'Phone';
-  final isAddress = labelText == 'Address';
+    TextInputType? keyboardType,
+    Widget? prefixIcon,
+    Widget? suffixIcon,
+    bool? readOnly,
+    String? Function(String?)? validator}) {
   final hidePassword = isObscureText ?? useState(false);
-  final isLogin = login ?? false;
   final isReadOnly = readOnly ?? false;
   return TextFormField(
     readOnly: isReadOnly,
     style: const TextStyle(color: Colors.white),
     controller: controller,
-    obscureText: hidePassword.value && isPassword,
-    keyboardType: isMail
-        ? TextInputType.emailAddress
-        : isPhone
-            ? TextInputType.phone
-            : isAddress
-                ? TextInputType.streetAddress
-                : TextInputType.text,
-    validator: (value) {
-      if (value == null || value.isEmpty) {
-        return '$labelText is a required field';
-      }
-      if (isMail &&
-          !RegExp(r'^[\S]+(\.[\S]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(value)) {
-        return 'Invalid $labelText';
-      }
-      if (!isLogin &&
-          isPassword &&
-          !RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>])[A-Za-z\d!@#$%^&*()\-_=+{};:,<.>.]{8,}$')
-              .hasMatch(value)) {
-        return 'Invalid $labelText (minimum length : 8 , one capital letter,'
-            '\none small letter, one number, and one special character)';
-      }
-      return null;
-    },
+    obscureText: hidePassword.value,
+    keyboardType: keyboardType ?? TextInputType.text,
+    validator: validator,
     decoration: InputDecoration(
       isDense: true,
       labelText: labelText,
@@ -58,34 +34,8 @@ Widget commonTextField(
       focusedBorder: _commonBorder(true, isReadOnly),
       errorBorder: _commonBorder(false, isReadOnly),
       focusedErrorBorder: _commonBorder(true, isReadOnly),
-      prefixIcon: Icon(
-        isPassword
-            ? Icons.password
-            : labelText == 'User Name'
-                ? Icons.person
-                : isPhone
-                    ? Icons.phone
-                    : isAddress
-                        ? Icons.location_city
-                        : Icons.mail,
-        color: Colors.white,
-      ),
-      suffixIcon: isPassword
-          ? GestureDetector(
-              onTap: () {
-                hidePassword.value = !hidePassword.value;
-              },
-              child: Icon(
-                hidePassword.value ? Icons.visibility : Icons.visibility_off,
-                color: Colors.white,
-              ),
-            )
-          : isMail && isReadOnly
-              ? const Icon(
-                  Icons.lock,
-                  color: Colors.white,
-                )
-              : null,
+      prefixIcon: prefixIcon,
+      suffixIcon: suffixIcon,
     ),
   );
 }

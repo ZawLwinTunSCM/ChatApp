@@ -9,6 +9,7 @@ import 'package:chat/presentation/components/common.dart';
 import 'package:chat/presentation/components/mail_send_dialog.dart';
 import 'package:chat/presentation/components/snack_bar.dart';
 import 'package:chat/presentation/components/text_field.dart';
+import 'package:chat/presentation/components/validation.dart';
 import 'package:chat/providers/auth/auth.dart';
 import 'package:chat/utils/converter/email_x_converter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -85,6 +86,15 @@ class ResetPasswordPage extends HookConsumerWidget {
                   commonTextField(
                     labelText: 'Mail Address',
                     controller: emailInputController,
+                    keyboardType: TextInputType.emailAddress,
+                    prefixIcon: const Icon(Icons.mail,color: Colors.white,),
+                    validator: (value) {
+                      return value!.isEmpty
+                          ? 'Mail Address is a required field'
+                          : value.isValidEmail
+                              ? null
+                              : 'Invalid Mail Address';
+                    },
                   ),
                   const SizedBox(height: 25),
                   Text(

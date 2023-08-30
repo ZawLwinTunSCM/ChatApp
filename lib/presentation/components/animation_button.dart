@@ -41,20 +41,23 @@ Widget actionButton({
   required String btnText,
   required void Function() onTap,
 }) {
-  return GestureDetector(
-    onTap: onTap,
-    child: Container(
+  return ElevatedButton(
+    onPressed: onTap,
+    style: ElevatedButton.styleFrom(
+      foregroundColor: Colors.deepPurple,
       padding: const EdgeInsets.symmetric(vertical: 10),
-      width: widthAnimation,
-      decoration: BoxDecoration(
-        color: AppColor.darkPurple,
+      backgroundColor: AppColor.darkPurple,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
           widthAnimation == width ? 8.5 : 25,
         ),
       ),
+    ),
+    child: SizedBox(
+      width: widthAnimation,
       child: Text(
-        textAlign: TextAlign.center,
         btnText,
+        textAlign: TextAlign.center,
         style: commonTextStyle(
           size: 16,
           weight: FontWeight.w400,

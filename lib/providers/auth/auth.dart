@@ -153,6 +153,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   Future<void> updateProfile({
     required User user,
   }) async {
+    userAuth.currentUser!.updateDisplayName(user.name);
     await _repository.update(
       user: user,
     );

@@ -8,6 +8,7 @@ import 'package:chat/presentation/components/common.dart';
 import 'package:chat/presentation/components/snack_bar.dart';
 import 'package:chat/presentation/components/social_button.dart';
 import 'package:chat/presentation/components/text_field.dart';
+import 'package:chat/presentation/components/validation.dart';
 import 'package:chat/presentation/forgot_password/forgot_password_page.dart';
 import 'package:chat/presentation/main/main_page.dart';
 import 'package:chat/presentation/sign_up/sign_up_page.dart';
@@ -55,8 +56,8 @@ class LoginPage extends HookConsumerWidget {
                 child: Column(
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      height: MediaQuery.of(context).size.width * 0.3,
+                      width: width * 0.3,
+                      height: width * 0.3,
                       child: SvgPicture.asset(
                         Assets.images.login,
                       ),
@@ -73,13 +74,39 @@ class LoginPage extends HookConsumerWidget {
                     commonTextField(
                       labelText: 'Mail Address',
                       controller: emailInputController,
+                      keyboardType: TextInputType.emailAddress,
+                      prefixIcon: const Icon(Icons.mail,color: Colors.white,),
+                      validator: (value) {
+                        return value!.isEmpty
+                            ? 'Mail Address is a required field'
+                            : value.isValidEmail
+                                ? null
+                                : 'Invalid Mail Address';
+                      },
                     ),
                     const SizedBox(height: 13),
                     commonTextField(
-                        labelText: 'Password',
-                        controller: passwordInputController,
-                        isObscureText: isObscureText,
-                        login: true),
+                      labelText: 'Password',
+                      controller: passwordInputController,
+                      isObscureText: isObscureText,
+                      prefixIcon: const Icon(Icons.password,color: Colors.white,),
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          isObscureText.value = !isObscureText.value;
+                        },
+                        child: Icon(
+                          isObscureText.value
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.white,
+                        ),
+                      ),
+                      validator: (value) {
+                        return value!.isEmpty
+                            ? 'Password is a required field'
+                            : null;
+                      },
+                    ),
                     const SizedBox(height: 10),
                     Align(
                       alignment: Alignment.centerRight,

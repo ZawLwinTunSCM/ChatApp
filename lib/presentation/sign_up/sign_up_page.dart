@@ -9,6 +9,7 @@ import 'package:chat/presentation/components/mail_send_dialog.dart';
 import 'package:chat/presentation/components/snack_bar.dart';
 import 'package:chat/presentation/components/social_button.dart';
 import 'package:chat/presentation/components/text_field.dart';
+import 'package:chat/presentation/components/validation.dart';
 import 'package:chat/presentation/login/login_page.dart';
 import 'package:chat/presentation/main/main_page.dart';
 import 'package:chat/providers/auth/auth.dart';
@@ -79,17 +80,59 @@ class SignUpPage extends HookConsumerWidget {
                     commonTextField(
                       labelText: 'Mail Address',
                       controller: emailInputController,
+                      keyboardType: TextInputType.emailAddress,
+                      prefixIcon: const Icon(
+                        Icons.mail,
+                        color: Colors.white,
+                      ),
+                      validator: (value) {
+                        return value!.isEmpty
+                            ? 'Mail Address is a required field'
+                            : value.isValidEmail
+                                ? null
+                                : 'Invalid Mail Address';
+                      },
                     ),
                     const SizedBox(height: 12),
                     commonTextField(
                       labelText: 'Password',
                       controller: passwordInputController,
                       isObscureText: isObscureText,
+                      prefixIcon:
+                          const Icon(Icons.password, color: Colors.white),
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          isObscureText.value = !isObscureText.value;
+                        },
+                        child: Icon(
+                          isObscureText.value
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.white,
+                        ),
+                      ),
+                      validator: (value) {
+                        return value!.isEmpty
+                            ? 'Password is a required field'
+                            : value.isValidPassword
+                                ? null
+                                : 'Invalid Password (minimum length : 8 , one capital letter,'
+                                    '\none small letter, one number, and one special character)';
+                      },
                     ),
                     const SizedBox(height: 12),
                     commonTextField(
                       labelText: 'User Name',
                       controller: nameInputController,
+                      prefixIcon: const Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ),
+                      validator: (value) {
+                        return value!.isEmpty
+                            ? 'User Name is a required field'
+                            : null;
+                      },
                     ),
                     const SizedBox(height: 12),
                     isLoading.value

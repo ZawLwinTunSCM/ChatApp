@@ -26,7 +26,7 @@ class MainPage extends HookConsumerWidget {
           Navigator.of(context).pushAndRemoveUntil<void>(
             MaterialPageRoute(
               builder: (context) =>
-                  user == null ? const WelcomePage() : const HomePage(),
+                  user == null ? const WelcomePage() : HomePage(),
             ),
             (route) => false,
           );

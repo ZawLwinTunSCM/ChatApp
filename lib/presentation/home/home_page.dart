@@ -10,16 +10,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class HomePage extends HookConsumerWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  final List<Widget> widgets = [
+    const ChatPage(),
+    const PeoplePage(),
+    const ProfilePage()
+  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = useState(0);
-    final List<Widget> widgets = [
-      const ChatPage(),
-      const PeoplePage(),
-      const ProfilePage()
-    ];
     return Scaffold(
       body: widgets[currentIndex.value],
       bottomNavigationBar: SalomonBottomBar(

@@ -22,6 +22,7 @@ class EditProfilePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authStateNotifier = ref.watch(authStateNotifierProvider.notifier);
+    final formKey = useMemoized(GlobalKey<FormState>.new);
     final nameInputController = useTextEditingController(text: user.name);
     final addressInputController = useTextEditingController(text: user.address);
     final phoneInputController = useTextEditingController(text: user.phone);
@@ -61,87 +62,118 @@ class EditProfilePage extends HookConsumerWidget {
         ),
         hasBackButton: true,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            const SizedBox(height: 40),
-            InkWell(
-              onTap: pickImage,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  profileImage.value != null
-                      ? CircleAvatar(
-                          maxRadius: 100,
-                          backgroundImage: MemoryImage(profileImage.value!),
-                        )
-                      : CircleAvatar(
-                          maxRadius: 100,
-                          backgroundImage: NetworkImage(user.profilePhoto),
+      body: Form(
+        key: formKey,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              const SizedBox(height: 40),
+              InkWell(
+                onTap: pickImage,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    profileImage.value != null
+                        ? CircleAvatar(
+                            maxRadius: 100,
+                            backgroundImage: MemoryImage(profileImage.value!),
+                          )
+                        : CircleAvatar(
+                            maxRadius: 100,
+                            backgroundImage: NetworkImage(user.profilePhoto),
+                          ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
                         ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: pickImage,
+                        child: IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: pickImage,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 30),
-            commonTextField(
+              const SizedBox(height: 30),
+              commonTextField(
                 labelText: 'Mail Address',
                 controller: emailInputController,
-                readOnly: true),
-            const SizedBox(height: 12),
-            commonTextField(
-              labelText: 'User Name',
-              controller: nameInputController,
-            ),
-            const SizedBox(height: 12),
-            commonTextField(
-              labelText: 'Phone',
-              controller: phoneInputController,
-            ),
-            const SizedBox(height: 12),
-            commonTextField(
-              labelText: 'Address',
-              controller: addressInputController,
-            ),
-            const SizedBox(height: 15),
-            AuthButton(
-                onPressed: () async {
-                  if (profileImage.value != null) {
-                    final imageUrl = await authStateNotifier.updateProfilePhoto(
-                        userId: user.id, imageBytes: profileImage.value!);
-                    profilePhotoInputController.text = imageUrl;
-                  }
-                  await authStateNotifier.updateProfile(
-                      user: User(
-                          id: user.id,
-                          name: nameInputController.text,
-                          email: emailInputController.text,
-                          phone: phoneInputController.text,
-                          address: addressInputController.text,
-                          profilePhoto: profilePhotoInputController.text,
-                          createdAt: user.createdAt));
-                  Navigator.pop(context);
+                readOnly: true,
+                keyboardType: TextInputType.emailAddress,
+                prefixIcon: const Icon(
+                  Icons.mail,
+                  color: Colors.white,
+                ),
+                suffixIcon: const Icon(
+                  Icons.lock,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 12),
+              commonTextField(
+                labelText: 'User Name',
+                controller: nameInputController,
+                prefixIcon: const Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
+                validator: (value) {
+                  print('===============+$value===============');
+                  return value!.isEmpty
+                      ? 'User Name is a required field'
+                      : null;
                 },
-                color: AppColor.darkPurple,
-                child: Text(
-                  'Edit Profile',
-                  style: commonTextStyle(size: 16, weight: FontWeight.w400),
-                ))
-          ],
+              ),
+              const SizedBox(height: 12),
+              commonTextField(
+                labelText: 'Phone',
+                controller: phoneInputController,
+                prefixIcon: const Icon(Icons.phone, color: Colors.white),
+                keyboardType: TextInputType.phone,
+              ),
+              const SizedBox(height: 12),
+              commonTextField(
+                  labelText: 'Address',
+                  controller: addressInputController,
+                  prefixIcon:
+                      const Icon(Icons.location_city, color: Colors.white),
+                  keyboardType: TextInputType.streetAddress),
+              const SizedBox(height: 15),
+              AuthButton(
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      if (profileImage.value != null) {
+                        final imageUrl =
+                            await authStateNotifier.updateProfilePhoto(
+                                userId: user.id,
+                                imageBytes: profileImage.value!);
+                        profilePhotoInputController.text = imageUrl;
+                      }
+                      await authStateNotifier.updateProfile(
+                          user: User(
+                              id: user.id,
+                              name: nameInputController.text,
+                              email: emailInputController.text,
+                              phone: phoneInputController.text,
+                              address: addressInputController.text,
+                              profilePhoto: profilePhotoInputController.text,
+                              createdAt: user.createdAt));
+                      Navigator.pop(context);
+                    }
+                  },
+                  color: AppColor.darkPurple,
+                  child: Text(
+                    'Update Profile',
+                    style: commonTextStyle(size: 16, weight: FontWeight.w400),
+                  ))
+            ],
+          ),
         ),
       ),
     );
