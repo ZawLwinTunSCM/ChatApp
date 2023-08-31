@@ -2,9 +2,8 @@
 
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:chat/constants/app_color.dart';
 import 'package:chat/entities/user.dart';
-import 'package:chat/presentation/components/auth_button.dart';
+import 'package:chat/presentation/components/animation_button.dart';
 import 'package:chat/presentation/components/common.dart';
 import 'package:chat/presentation/components/custom_app_bar.dart';
 import 'package:chat/presentation/components/text_field.dart';
@@ -29,8 +28,23 @@ class EditProfilePage extends HookConsumerWidget {
     final emailInputController = useTextEditingController(text: user.email);
     final profilePhotoInputController =
         useTextEditingController(text: user.profilePhoto);
-
     final profileImage = useState<Uint8List?>(null);
+
+    final isLoading = useState(false);
+    final isDone = useState(false);
+    final isError = useState(false);
+    final btnText = useState('Update Profile');
+    final width = MediaQuery.of(context).size.width;
+    final btnAnimationController =
+        useAnimationController(duration: const Duration(milliseconds: 500));
+    final widthAnimation = useAnimation(
+      Tween(begin: width, end: 48.5).animate(
+        CurvedAnimation(
+          parent: btnAnimationController,
+          curve: Curves.linear,
+        ),
+      ),
+    );
 
     Future<Uint8List?> imagePicker() async {
       final image = await ImagePicker().pickImage(
@@ -57,7 +71,7 @@ class EditProfilePage extends HookConsumerWidget {
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(
-          'Profile',
+          'Edit Profile',
           style: commonTextStyle(size: 20),
         ),
         hasBackButton: true,
@@ -124,7 +138,6 @@ class EditProfilePage extends HookConsumerWidget {
                   color: Colors.white,
                 ),
                 validator: (value) {
-                  print('===============+$value===============');
                   return value!.isEmpty
                       ? 'User Name is a required field'
                       : null;
@@ -145,33 +158,42 @@ class EditProfilePage extends HookConsumerWidget {
                       const Icon(Icons.location_city, color: Colors.white),
                   keyboardType: TextInputType.streetAddress),
               const SizedBox(height: 15),
-              AuthButton(
-                  onPressed: () async {
-                    if (formKey.currentState!.validate()) {
-                      if (profileImage.value != null) {
-                        final imageUrl =
-                            await authStateNotifier.updateProfilePhoto(
-                                userId: user.id,
-                                imageBytes: profileImage.value!);
-                        profilePhotoInputController.text = imageUrl;
-                      }
-                      await authStateNotifier.updateProfile(
-                          user: User(
-                              id: user.id,
-                              name: nameInputController.text,
-                              email: emailInputController.text,
-                              phone: phoneInputController.text,
-                              address: addressInputController.text,
-                              profilePhoto: profilePhotoInputController.text,
-                              createdAt: user.createdAt));
-                      Navigator.pop(context);
-                    }
-                  },
-                  color: AppColor.darkPurple,
-                  child: Text(
-                    'Update Profile',
-                    style: commonTextStyle(size: 16, weight: FontWeight.w400),
-                  ))
+              isLoading.value
+                  ? loadingButton(
+                      isDone: isDone.value,
+                      isError: isError.value,
+                    )
+                  : actionButton(
+                      width: width,
+                      widthAnimation: widthAnimation,
+                      btnText: btnText.value,
+                      onTap: () async {
+                        if (formKey.currentState!.validate()) {
+                          btnText.value = '';
+                          await btnAnimationController.forward();
+                          isLoading.value = true;
+                          if (profileImage.value != null) {
+                            final imageUrl =
+                                await authStateNotifier.updateProfilePhoto(
+                                    userId: user.id,
+                                    imageBytes: profileImage.value!);
+                            profilePhotoInputController.text = imageUrl;
+                          }
+                          await authStateNotifier.updateProfile(
+                              user: User(
+                                  id: user.id,
+                                  name: nameInputController.text,
+                                  email: emailInputController.text,
+                                  phone: phoneInputController.text,
+                                  address: addressInputController.text,
+                                  profilePhoto:
+                                      profilePhotoInputController.text,
+                                  createdAt: user.createdAt));
+                          Navigator.pop(context);
+                          isDone.value = true;
+                        }
+                      },
+                    ),
             ],
           ),
         ),

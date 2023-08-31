@@ -159,6 +159,32 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     );
   }
 
+  Future<bool> checkPassword({required String currentPassword}) async {
+    final currentUser = userAuth.currentUser;
+    if (currentUser!.providerData.first.providerId == 'password') {
+      try {
+        final user = await currentUser
+            .reauthenticateWithCredential(auth.EmailAuthProvider.credential(
+          email: userAuth.currentUser!.email!,
+          password: currentPassword,
+        ));
+        return user.user != null;
+      } on auth.FirebaseAuthException {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    await checkPassword(currentPassword: currentPassword)
+        ? await userAuth.currentUser!.updatePassword(newPassword)
+        : null;
+  }
+
   Future<String> updateProfilePhoto(
       {required userId, required Uint8List imageBytes}) async {
     return await _repository.uploadProfileImage(

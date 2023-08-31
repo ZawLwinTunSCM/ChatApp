@@ -27,6 +27,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/contact_share.svg
   String get contactShare => 'assets/images/contact_share.svg';
 
+  /// File path: assets/images/default_profile.png
+  AssetGenImage get defaultProfile =>
+      const AssetGenImage('assets/images/default_profile.png');
+
   /// File path: assets/images/document.svg
   String get document => 'assets/images/document.svg';
 
@@ -56,6 +60,12 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/mail_send.svg
   String get mailSend => 'assets/images/mail_send.svg';
+
+  /// File path: assets/images/password_change.svg
+  String get passwordChange => 'assets/images/password_change.svg';
+
+  /// File path: assets/images/password_edit.svg
+  String get passwordEdit => 'assets/images/password_edit.svg';
 
   /// File path: assets/images/people.svg
   String get people => 'assets/images/people.svg';
@@ -106,6 +116,7 @@ class $AssetsImagesGen {
         chatWhite,
         chats,
         contactShare,
+        defaultProfile,
         document,
         edit,
         email,
@@ -116,6 +127,8 @@ class $AssetsImagesGen {
         logoSvg,
         logout,
         mailSend,
+        passwordChange,
+        passwordEdit,
         people,
         phone,
         privateChat,

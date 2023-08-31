@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:chat/assets/assets.gen.dart';
 import 'package:chat/constants/app_color.dart';
 import 'package:chat/entities/user.dart';

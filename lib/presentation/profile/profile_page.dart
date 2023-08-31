@@ -3,6 +3,7 @@ import 'package:chat/presentation/components/common.dart';
 import 'package:chat/presentation/components/custom_app_bar.dart';
 import 'package:chat/presentation/components/setting_button.dart';
 import 'package:chat/presentation/main/main_page.dart';
+import 'package:chat/presentation/profile/change_password.dart';
 import 'package:chat/presentation/profile/edit_profile.dart';
 import 'package:chat/providers/auth/auth.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ class ProfilePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(currentUserProvider);
     final authStateNotifier = ref.watch(authStateNotifierProvider.notifier);
+    final provider =
+        ref.watch(authUserStreamProvider).value?.providerData.first.providerId;
     return Scaffold(
         appBar: CustomAppBar(
           title: Text(
@@ -32,7 +35,8 @@ class ProfilePage extends HookConsumerWidget {
                   ),
                   CircleAvatar(
                     radius: 70,
-                    backgroundImage: NetworkImage(user!.profilePhoto,
+                    backgroundImage: NetworkImage(
+                      user!.profilePhoto,
                     ),
                   ),
                   const SizedBox(
@@ -49,7 +53,7 @@ class ProfilePage extends HookConsumerWidget {
                   const SizedBox(height: 43),
                   settingButton(
                       icon: SvgPicture.asset(Assets.images.contactShare),
-                      text: 'Share Contact'),
+                      text: 'Share Your Contact'),
                   settingButton(
                     icon: SvgPicture.asset(Assets.images.edit),
                     text: 'Edit Profile',
@@ -59,6 +63,16 @@ class ProfilePage extends HookConsumerWidget {
                       ));
                     },
                   ),
+                  if (provider != null && provider.contains('password'))
+                    settingButton(
+                      icon: SvgPicture.asset(Assets.images.passwordEdit),
+                      text: 'Change Password',
+                      onClick: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const ChangePasswordPage(),
+                        ));
+                      },
+                    ),
                   settingButton(
                       icon: SvgPicture.asset(Assets.images.settings),
                       text: 'Settings'),
@@ -74,8 +88,8 @@ class ProfilePage extends HookConsumerWidget {
                   settingButton(
                     icon: SvgPicture.asset(Assets.images.logout),
                     text: 'Logout',
-                    onClick: () {
-                      authStateNotifier.signOut();
+                    onClick: () async {
+                      await authStateNotifier.signOut();
                       Navigator.of(context).pushAndRemoveUntil<void>(
                         MaterialPageRoute(
                           builder: (context) => const MainPage(),

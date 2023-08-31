@@ -16,10 +16,12 @@ Widget settingButton(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            icon,
+            Expanded(flex: 1, child: icon),
             const SizedBox(width: 20),
             Expanded(
+              flex: 9,
               child: Text(
                 text,
                 style: commonTextStyle(size: 15, weight: FontWeight.w600),

@@ -6,6 +6,7 @@ import 'package:chat/assets/assets.gen.dart';
 import 'package:chat/constants/app_color.dart';
 import 'package:chat/presentation/components/animation_button.dart';
 import 'package:chat/presentation/components/common.dart';
+import 'package:chat/presentation/components/custom_app_bar.dart';
 import 'package:chat/presentation/components/mail_send_dialog.dart';
 import 'package:chat/presentation/components/snack_bar.dart';
 import 'package:chat/presentation/components/text_field.dart';
@@ -42,18 +43,12 @@ class ResetPasswordPage extends HookConsumerWidget {
       ),
     );
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColor.dark,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+      appBar: CustomAppBar(
+        title: Text(
+          'Forgot Password',
+          style: commonTextStyle(size: 20),
         ),
+        hasBackButton: true,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -87,7 +82,10 @@ class ResetPasswordPage extends HookConsumerWidget {
                     labelText: 'Mail Address',
                     controller: emailInputController,
                     keyboardType: TextInputType.emailAddress,
-                    prefixIcon: const Icon(Icons.mail,color: Colors.white,),
+                    prefixIcon: const Icon(
+                      Icons.mail,
+                      color: Colors.white,
+                    ),
                     validator: (value) {
                       return value!.isEmpty
                           ? 'Mail Address is a required field'
